@@ -1,6 +1,7 @@
 import { MartiniIcon } from "lucide-react";
 import Link from "next/link";
 import { MainNav } from "./main-nav";
+import { ThemeToggle } from "./theme-toggle";
 
 export function SiteHeader() {
   return (
@@ -10,7 +11,10 @@ export function SiteHeader() {
           <MartiniIcon className="size-5 text-primary" aria-hidden />
           <span className="hidden sm:inline">Koktajle</span>
         </Link>
-        <MainNav />
+        <div className="flex items-center gap-1">
+          <MainNav />
+          <ThemeToggle />
+        </div>
       </div>
     </header>
   );
