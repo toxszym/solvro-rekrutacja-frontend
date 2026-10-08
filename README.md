@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Koktajle
 
-## Getting Started
+Aplikacja webowa do przeglądania koktajli, zrobiona jako zadanie rekrutacyjne do KN Solvro.
+Dane pochodzą z [Cocktails API](https://cocktails.solvro.pl).
 
-First, run the development server:
+<!-- TODO: link do wersji online -->
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+![Lista koktajli](docs/list.jpg)
+
+| Szczegóły koktajlu             | Telefon, ciemny motyw      |
+| ------------------------------ | -------------------------- |
+| ![Szczegóły](docs/details.jpg) | ![Mobile](docs/mobile.jpg) |
+
+## Funkcje
+
+- **Lista koktajli** z infinite scrollem
+- **Wyszukiwanie po nazwie** z debouncingiem (jedno zapytanie po skończeniu pisania, a nie po każdej literze)
+- **Filtrowanie** po kategorii, rodzaju szkła i zawartości alkoholu oraz **sortowanie** po nazwie
+- **Filtry zapisane w URL** – link z wynikami można komuś wysłać, a przycisk „wstecz” działa
+- **Szczegóły koktajlu** – składniki z miarami, typem i procentem alkoholu, sposób przygotowania
+- **Ulubione** zapisywane w `localStorage`, z osobną stroną i licznikiem w nawigacji
+- **Jasny i ciemny motyw** (domyślnie zgodny z systemem)
+- **Cache danych** zapisywany w przeglądarce – po ponownym wejściu lista pokazuje się od razu,
+  nawet gdy API jest niedostępne
+- **Animacje** (z poszanowaniem ustawienia „ogranicz ruch” w systemie)
+- **Responsywność** – od telefonu po duży monitor
+
+## Stack
+
+- [Next.js 16](https://nextjs.org) (App Router) + React 19 + TypeScript
+- [TanStack Query](https://tanstack.com/query) – pobieranie i cache danych
+- [shadcn/ui](https://ui.shadcn.com) + Tailwind CSS 4
+- [zod](https://zod.dev) – walidacja odpowiedzi API
+- [next-themes](https://github.com/pacocoursey/next-themes), [Motion](https://motion.dev)
+
+## Decyzje techniczne
+
+**Walidacja API przez zod.** Typy TypeScript wynikają ze schematów, a odpowiedź jest sprawdzana
+w runtime. Jeśli API zwróci coś innego niż zakładamy, dostaniemy czytelny błąd zamiast
+`undefined` gdzieś w środku komponentu.
+
+**URL jako źródło prawdy dla filtrów.** Zamiast trzymać filtry w stanie Reacta, czytam je
+z `useSearchParams`. Dzięki temu nie trzeba ich nigdzie synchronizować, a odświeżenie strony
+niczego nie gubi.
+
+**Ulubione bez biblioteki do stanu.** Store to kilkadziesiąt linijek nad `localStorage`,
+podpięty do Reacta przez `useSyncExternalStore`. Nie potrzeba Providera, nie ma problemów
+z hydratacją, a zmiany synchronizują się między kartami przeglądarki.
+Zapisuję też podstawowe dane koktajlu, więc strona ulubionych nie robi żadnych zapytań.
+
+**Strony szczegółów generowane przy buildzie.** `generateStaticParams` tworzy stronę dla każdego
+koktajlu, więc wchodzi się na gotowy HTML (szybko i dobrze dla SEO).
+Na serwerze Node strony odświeżają się raz na dobę (ISR).
+
+**Uwaga o danych z API.** Składniki bez uzupełnionego pola `type` mają zawsze `alcohol: true`
+(np. sok z limonki), więc w takim przypadku aplikacja nie pokazuje informacji o alkoholu.
+
+## Struktura
+
+```
+src/
+  app/                  # trasy: lista, /cocktails/[id], /favorites
+  components/           # wspólne komponenty (header, nawigacja, motyw)
+    ui/                 # komponenty shadcn/ui
+  features/
+    cocktails/          # API, schematy, filtry, zapytania i komponenty koktajli
+    favorites/          # store ulubionych, hook i komponenty
+  hooks/                # useDebounce, useInView, useIsClient
+  lib/                  # klient API
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Uruchomienie
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Wymagany Node.js 20+.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev
+```
 
-## Learn More
+Aplikacja będzie dostępna pod adresem http://localhost:3000.
 
-To learn more about Next.js, take a look at the following resources:
+Pozostałe skrypty: `npm run lint`, `npm run typecheck`, `npm run format`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Wdrożenie
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Aplikację można wdrożyć na dwa sposoby:
 
-## Deploy on Vercel
+**Serwer Node.js** (np. Vercel albo hosting z obsługą Node):
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run build
+npm start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Statyczne pliki** (dowolny hosting, np. Apache / DirectAdmin bez Node):
+
+```bash
+npm run build:static
+```
+
+Zawartość katalogu `out/` (razem z plikiem `.htaccess`) wystarczy wrzucić do `public_html`.
+W tej wersji nowe koktajle dodane do API pojawią się dopiero po ponownym buildzie.
