@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import type { CocktailFilters } from "../filters";
 import { useCocktailsInfinite } from "../queries";
 import { CocktailCard } from "./cocktail-card";
-import { CocktailGrid, CocktailGridSkeleton } from "./cocktail-grid";
+import { CocktailGrid, CocktailGridItem, CocktailGridSkeleton } from "./cocktail-grid";
 
 export function CocktailList({ filters }: { filters: CocktailFilters }) {
   const {
@@ -69,9 +69,9 @@ export function CocktailList({ filters }: { filters: CocktailFilters }) {
       <div className={cn("transition-opacity", isPlaceholderData && "opacity-50")}>
         <CocktailGrid>
           {cocktails.map((cocktail, index) => (
-            <li key={cocktail.id}>
+            <CocktailGridItem key={cocktail.id} index={index}>
               <CocktailCard cocktail={cocktail} priority={index < 4} />
-            </li>
+            </CocktailGridItem>
           ))}
         </CocktailGrid>
       </div>

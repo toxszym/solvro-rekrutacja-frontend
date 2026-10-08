@@ -1,6 +1,7 @@
 "use client";
 
 import { HeartIcon } from "lucide-react";
+import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { FavoriteCocktail } from "./favorites-store";
@@ -23,10 +24,18 @@ export function FavoriteButton({
   const label = active ? "Usuń z ulubionych" : "Dodaj do ulubionych";
 
   const heart = (
-    <HeartIcon
-      className={cn("transition-colors", active && "fill-red-500 text-red-500")}
-      aria-hidden
-    />
+    // "Pyknięcie" serduszka przy dodaniu. initial={false} – bez animacji przy pierwszym renderze.
+    <motion.span
+      initial={false}
+      animate={active ? { scale: [1, 1.35, 1] } : { scale: 1 }}
+      transition={{ duration: 0.3 }}
+      className="flex"
+    >
+      <HeartIcon
+        className={cn("transition-colors", active && "fill-red-500 text-red-500")}
+        aria-hidden
+      />
+    </motion.span>
   );
 
   if (variant === "full") {

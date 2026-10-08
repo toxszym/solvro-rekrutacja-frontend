@@ -1,12 +1,14 @@
 "use client";
 
 import { HeartIcon } from "lucide-react";
+import { AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { StatusMessage } from "@/components/status-message";
 import { Button } from "@/components/ui/button";
 import { CocktailCard } from "@/features/cocktails/components/cocktail-card";
 import {
   CocktailGrid,
+  CocktailGridItem,
   CocktailGridSkeleton,
 } from "@/features/cocktails/components/cocktail-grid";
 import { useIsClient } from "@/hooks/use-is-client";
@@ -37,11 +39,14 @@ export function FavoritesList() {
 
   return (
     <CocktailGrid>
-      {favorites.map((cocktail) => (
-        <li key={cocktail.id}>
-          <CocktailCard cocktail={cocktail} />
-        </li>
-      ))}
+      {/* AnimatePresence pozwala animować kartę także przy jej usuwaniu (exit). */}
+      <AnimatePresence initial={false}>
+        {favorites.map((cocktail, index) => (
+          <CocktailGridItem key={cocktail.id} index={index}>
+            <CocktailCard cocktail={cocktail} />
+          </CocktailGridItem>
+        ))}
+      </AnimatePresence>
     </CocktailGrid>
   );
 }

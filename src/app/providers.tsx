@@ -4,6 +4,7 @@ import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persi
 import { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import { MotionConfig } from "motion/react";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 
@@ -75,7 +76,8 @@ export function Providers({ children }: { children: ReactNode }) {
           buster: "v1",
         }}
       >
-        {children}
+        {/* reducedMotion="user": wyłącza animacje, jeśli użytkownik ma to ustawione w systemie. */}
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
         <ReactQueryDevtools initialIsOpen={false} />
       </PersistQueryClientProvider>
     </ThemeProvider>
