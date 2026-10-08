@@ -1,14 +1,12 @@
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardTitle } from "@/components/ui/card";
-import type { Cocktail } from "../schemas";
+import { FavoriteButton } from "@/features/favorites/favorite-button";
+import type { FavoriteCocktail } from "@/features/favorites/favorites-store";
 import { CocktailImage } from "./cocktail-image";
 
 type CocktailCardProps = {
-  cocktail: Pick<
-    Cocktail,
-    "id" | "name" | "category" | "glass" | "imageUrl" | "alcoholic"
-  >;
+  cocktail: FavoriteCocktail;
   priority?: boolean;
 };
 
@@ -38,6 +36,9 @@ export function CocktailCard({ cocktail, priority }: CocktailCardProps) {
           Bezalkoholowy
         </Badge>
       )}
+
+      {/* z-10, żeby przycisk był nad linkiem rozciągniętym na całą kartę */}
+      <FavoriteButton cocktail={cocktail} className="absolute top-3 right-3 z-10" />
     </Card>
   );
 }

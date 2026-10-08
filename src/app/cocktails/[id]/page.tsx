@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { BackButton } from "@/features/cocktails/components/back-button";
 import { CocktailImage } from "@/features/cocktails/components/cocktail-image";
 import { IngredientList } from "@/features/cocktails/components/ingredient-list";
+import { FavoriteButton } from "@/features/favorites/favorite-button";
 import { getCachedCocktail, getCachedCocktailIds } from "@/features/cocktails/server";
 
 /** Przy buildzie generujemy stronę dla każdego koktajlu (potrzebne też do statycznego eksportu). */
@@ -63,6 +64,7 @@ export default async function CocktailPage({ params }: PageProps<"/cocktails/[id
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
               {cocktail.name}
             </h1>
+            <FavoriteButton cocktail={cocktail} variant="full" />
           </header>
 
           <section className="space-y-3">
