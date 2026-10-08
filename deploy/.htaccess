@@ -1,0 +1,19 @@
+# Konfiguracja Apache dla statycznego eksportu (npm run build:static).
+# Plik jest kopiowany do out/ podczas builda.
+
+ErrorDocument 404 /404.html
+
+<IfModule mod_headers.c>
+  # Pliki z _next/static mają hash w nazwie, więc można je cache'ować "na zawsze".
+  <If "%{REQUEST_URI} =~ m#^/_next/static/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+  # HTML zawsze sprawdzamy na serwerze, żeby po wdrożeniu nowej wersji od razu ją widzieć.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml
+</IfModule>

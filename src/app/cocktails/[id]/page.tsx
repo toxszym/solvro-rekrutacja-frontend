@@ -5,11 +5,16 @@ import { BackButton } from "@/features/cocktails/components/back-button";
 import { CocktailImage } from "@/features/cocktails/components/cocktail-image";
 import { IngredientList } from "@/features/cocktails/components/ingredient-list";
 import { FavoriteButton } from "@/features/favorites/favorite-button";
-import { getCachedCocktail, getCachedCocktailIds } from "@/features/cocktails/server";
+import { getAllCocktailIds, getCocktail } from "@/features/cocktails/api";
+import { ApiError } from "@/lib/api-client";
+
+// Na serwerze Node strona jest odświeżana w tle najwyżej raz na dobę (ISR),
+// więc API Solvro nie dostaje zapytania przy każdym wejściu.
+export const revalidate = 86400;
 
 /** Przy buildzie generujemy stronę dla każdego koktajlu (potrzebne też do statycznego eksportu). */
 export async function generateStaticParams() {
-  const ids = await getCachedCocktailIds();
+  const ids = await getAllCocktailIds();
   return ids.map((id) => ({ id: String(id) }));
 }
 
@@ -18,10 +23,12 @@ async function getCocktailOrNotFound(params: PageProps<"/cocktails/[id]">["param
   const cocktailId = Number(id);
   if (!Number.isInteger(cocktailId)) notFound();
 
-  const cocktail = await getCachedCocktail(cocktailId);
-  if (!cocktail) notFound();
-
-  return cocktail;
+  try {
+    return await getCocktail(cocktailId);
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) notFound();
+    throw error;
+  }
 }
 
 export async function generateMetadata({
