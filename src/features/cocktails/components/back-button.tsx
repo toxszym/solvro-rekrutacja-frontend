@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
  * Wraca do poprzedniej strony, żeby zachować filtry i pozycję na liście.
  * Gdy ktoś wszedł bezpośrednio z linku (brak historii), przenosi na stronę główną.
  */
-export function BackButton() {
+export function BackButton({ label = "Wróć do listy" }: { label?: string }) {
   const router = useRouter();
 
   function handleClick() {
@@ -26,7 +26,7 @@ export function BackButton() {
       className="-ml-3 rounded-full text-muted-foreground hover:text-foreground"
     >
       <ArrowLeftIcon />
-      Wróć do listy
+      {label}
     </Button>
   );
 }

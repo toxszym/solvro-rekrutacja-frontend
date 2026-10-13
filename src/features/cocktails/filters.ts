@@ -3,16 +3,21 @@
  * więc link z filtrami można komuś wysłać, a przycisk "wstecz" działa.
  */
 
-export const SORT_OPTIONS = ["name-asc", "name-desc"] as const;
+export const SORT_OPTIONS = ["name-asc", "name-desc", "newest"] as const;
 export type SortOption = (typeof SORT_OPTIONS)[number];
 
 export const ALCOHOLIC_OPTIONS = ["all", "alcoholic", "non-alcoholic"] as const;
 export type AlcoholicOption = (typeof ALCOHOLIC_OPTIONS)[number];
 
+/** Technika przygotowania. API nie ma takiego pola, więc szukamy słowa w instrukcji. */
+export const TECHNIQUE_OPTIONS = ["shake", "stir", "blend", "muddle"] as const;
+export type TechniqueOption = (typeof TECHNIQUE_OPTIONS)[number];
+
 export type CocktailFilters = {
   search: string;
   category: string | null;
   glass: string | null;
+  technique: TechniqueOption | null;
   alcoholic: AlcoholicOption;
   sort: SortOption;
 };
@@ -21,6 +26,7 @@ export const DEFAULT_FILTERS: CocktailFilters = {
   search: "",
   category: null,
   glass: null,
+  technique: null,
   alcoholic: "all",
   sort: "name-asc",
 };
@@ -36,11 +42,13 @@ function isOneOf<T extends string>(
 export function parseFilters(params: URLSearchParams): CocktailFilters {
   const alcoholic = params.get("alcoholic");
   const sort = params.get("sort");
+  const technique = params.get("technique");
 
   return {
     search: params.get("q") ?? DEFAULT_FILTERS.search,
     category: params.get("category"),
     glass: params.get("glass"),
+    technique: isOneOf(TECHNIQUE_OPTIONS, technique) ? technique : null,
     alcoholic: isOneOf(ALCOHOLIC_OPTIONS, alcoholic)
       ? alcoholic
       : DEFAULT_FILTERS.alcoholic,
@@ -55,6 +63,7 @@ export function serializeFilters(filters: CocktailFilters): URLSearchParams {
   if (filters.search) params.set("q", filters.search);
   if (filters.category) params.set("category", filters.category);
   if (filters.glass) params.set("glass", filters.glass);
+  if (filters.technique) params.set("technique", filters.technique);
   if (filters.alcoholic !== DEFAULT_FILTERS.alcoholic)
     params.set("alcoholic", filters.alcoholic);
   if (filters.sort !== DEFAULT_FILTERS.sort) params.set("sort", filters.sort);

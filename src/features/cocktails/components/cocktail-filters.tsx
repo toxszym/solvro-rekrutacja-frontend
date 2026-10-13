@@ -1,6 +1,7 @@
 "use client";
 
 import { FilterXIcon } from "lucide-react";
+import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -15,6 +16,8 @@ import {
   type CocktailFilters as Filters,
   hasActiveFilters,
   type SortOption,
+  TECHNIQUE_OPTIONS,
+  type TechniqueOption,
 } from "../filters";
 import { useCategories, useGlasses } from "../queries";
 import { SearchInput } from "./search-input";
@@ -31,6 +34,14 @@ const ALCOHOLIC_LABELS: Record<AlcoholicOption, string> = {
 const SORT_LABELS: Record<SortOption, string> = {
   "name-asc": "Nazwa A–Z",
   "name-desc": "Nazwa Z–A",
+  newest: "Najnowsze",
+};
+
+const TECHNIQUE_LABELS: Record<TechniqueOption, string> = {
+  shake: "Wstrząsane",
+  stir: "Mieszane",
+  blend: "Blendowane",
+  muddle: "Ugniatane",
 };
 
 type FiltersProps = {
@@ -38,7 +49,7 @@ type FiltersProps = {
   onChange: (changes: Partial<Filters>, options?: { replace?: boolean }) => void;
 };
 
-/** Wyszukiwarka, kategorie (chipy) oraz filtry szkła i alkoholu. */
+/** Wyszukiwarka, kategorie i technika (chipy) oraz filtry szkła i alkoholu. */
 export function CocktailFilters({ filters, onChange }: FiltersProps) {
   const { data: glasses = [] } = useGlasses();
 
@@ -77,6 +88,22 @@ export function CocktailFilters({ filters, onChange }: FiltersProps) {
         value={filters.category}
         onChange={(category) => onChange({ category })}
       />
+
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-sm text-muted-foreground">Technika:</span>
+        {TECHNIQUE_OPTIONS.map((technique) => (
+          <Chip
+            key={technique}
+            active={filters.technique === technique}
+            // Ponowne kliknięcie aktywnego chipa wyłącza filtr.
+            onClick={() =>
+              onChange({ technique: filters.technique === technique ? null : technique })
+            }
+          >
+            {TECHNIQUE_LABELS[technique]}
+          </Chip>
+        ))}
+      </div>
     </div>
   );
 }
@@ -103,28 +130,41 @@ function CategoryChips({
       aria-label="Kategoria"
     >
       <div className="flex w-max gap-2">
-        {chips.map((chip) => {
-          const active = chip.value === value;
-
-          return (
-            <button
-              key={chip.label}
-              type="button"
-              onClick={() => onChange(chip.value)}
-              aria-pressed={active}
-              className={cn(
-                "rounded-full border px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-colors",
-                active
-                  ? "border-foreground bg-foreground text-background"
-                  : "bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground",
-              )}
-            >
-              {chip.label}
-            </button>
-          );
-        })}
+        {chips.map((chip) => (
+          <Chip
+            key={chip.label}
+            active={chip.value === value}
+            onClick={() => onChange(chip.value)}
+          >
+            {chip.label}
+          </Chip>
+        ))}
       </div>
     </div>
+  );
+}
+
+type ChipProps = {
+  active: boolean;
+  onClick: () => void;
+  children: ReactNode;
+};
+
+function Chip({ active, onClick, children }: ChipProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={cn(
+        "rounded-full border px-4 py-1.5 text-sm font-medium whitespace-nowrap transition-colors",
+        active
+          ? "border-foreground bg-foreground text-background"
+          : "bg-card text-muted-foreground hover:border-foreground/30 hover:text-foreground",
+      )}
+    >
+      {children}
+    </button>
   );
 }
 

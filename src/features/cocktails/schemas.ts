@@ -42,6 +42,16 @@ export const cocktailDetailsResponseSchema = z.object({
   data: cocktailDetailsSchema,
 });
 
+export const ingredientResponseSchema = z.object({
+  data: ingredientSchema,
+});
+
+/** Lista koktajli z `?ingredients=true`, z której potrzebujemy tylko ID składników. */
+export const cocktailIngredientIdsPageSchema = z.object({
+  meta: paginationMetaSchema,
+  data: z.array(z.object({ ingredients: z.array(z.object({ id: z.number() })) })),
+});
+
 export const stringListResponseSchema = z.object({
   data: z.array(z.string()),
 });

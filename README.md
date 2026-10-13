@@ -15,9 +15,11 @@ Dane pochodzą z [Cocktails API](https://cocktails.solvro.pl).
 
 - **Lista koktajli** z infinite scrollem
 - **Wyszukiwanie po nazwie** z debouncingiem (jedno zapytanie po skończeniu pisania, a nie po każdej literze)
-- **Filtrowanie** po kategorii, rodzaju szkła i zawartości alkoholu oraz **sortowanie** po nazwie
+- **Filtrowanie** po kategorii, rodzaju szkła, zawartości alkoholu i **technice przygotowania**
+  (wstrząsane, mieszane, blendowane, ugniatane) oraz **sortowanie** po nazwie lub od najnowszych
 - **Filtry zapisane w URL** – link z wynikami można komuś wysłać, a przycisk „wstecz” działa
 - **Szczegóły koktajlu** – składniki z miarami, typem i procentem alkoholu, sposób przygotowania
+- **Strony składników** – opis, typ i moc oraz wszystkie koktajle z danym składnikiem
 - **Ulubione** zapisywane w `localStorage`, z osobną stroną i licznikiem w nawigacji
 - **Jasny i ciemny motyw** (domyślnie zgodny z systemem)
 - **Cache danych** zapisywany w przeglądarce – po ponownym wejściu lista pokazuje się od razu,
@@ -51,6 +53,12 @@ Zapisuję też podstawowe dane koktajlu, więc strona ulubionych nie robi żadny
 **Strony szczegółów generowane przy buildzie.** `generateStaticParams` tworzy stronę dla każdego
 koktajlu, więc wchodzi się na gotowy HTML (szybko i dobrze dla SEO).
 Na serwerze Node strony odświeżają się raz na dobę (ISR).
+
+**Technika jako filtr po treści instrukcji.** API nie ma pola „technika”, ale pozwala szukać
+w instrukcjach (`?instructions=%shake%`), więc filtr nie wymaga pobierania wszystkich koktajli.
+
+**Strony składników tylko dla użytych składników.** API ma ponad 500 składników, ale w koktajlach
+występuje ok. 160. Przy buildzie generuję strony tylko dla nich, bo tylko do nich prowadzą linki.
 
 **Uwaga o danych z API.** Składniki bez uzupełnionego pola `type` mają zawsze `alcohol: true`
 (np. sok z limonki), więc w takim przypadku aplikacja nie pokazuje informacji o alkoholu.
