@@ -1,15 +1,15 @@
-# Koktajle
+# Shaker
 
 Aplikacja webowa do przeglądania koktajli, zrobiona jako zadanie rekrutacyjne do KN Solvro.
 Dane pochodzą z [Cocktails API](https://cocktails.solvro.pl).
 
 <!-- TODO: link do wersji online -->
 
-![Lista koktajli](docs/list.jpg)
+![Strona główna](docs/home.jpg)
 
-| Szczegóły koktajlu             | Telefon, ciemny motyw      |
-| ------------------------------ | -------------------------- |
-| ![Szczegóły](docs/details.jpg) | ![Mobile](docs/mobile.jpg) |
+| Lista z filtrami        | Szczegóły koktajlu             | Telefon, ciemny motyw      |
+| ----------------------- | ------------------------------ | -------------------------- |
+| ![Lista](docs/list.jpg) | ![Szczegóły](docs/details.jpg) | ![Mobile](docs/mobile.jpg) |
 
 ## Funkcje
 
@@ -29,7 +29,7 @@ Dane pochodzą z [Cocktails API](https://cocktails.solvro.pl).
 
 - [Next.js 16](https://nextjs.org) (App Router) + React 19 + TypeScript
 - [TanStack Query](https://tanstack.com/query) – pobieranie i cache danych
-- [shadcn/ui](https://ui.shadcn.com) + Tailwind CSS 4
+- [shadcn/ui](https://ui.shadcn.com) + Tailwind CSS 4, kroje Geist i Bricolage Grotesque
 - [zod](https://zod.dev) – walidacja odpowiedzi API
 - [next-themes](https://github.com/pacocoursey/next-themes), [Motion](https://motion.dev)
 

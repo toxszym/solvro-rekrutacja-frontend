@@ -42,9 +42,10 @@ export function FavoriteButton({
     return (
       <Button
         variant="outline"
+        size="lg"
         onClick={() => toggleFavorite(cocktail)}
         aria-pressed={active}
-        className={className}
+        className={cn("h-11 rounded-full px-5", className)}
       >
         {heart}
         {active ? "W ulubionych" : "Dodaj do ulubionych"}
@@ -54,13 +55,16 @@ export function FavoriteButton({
 
   return (
     <Button
-      variant="secondary"
+      variant="ghost"
       size="icon-lg"
       onClick={() => toggleFavorite(cocktail)}
       aria-pressed={active}
       aria-label={label}
       title={label}
-      className={cn("rounded-full bg-background/80 shadow-sm backdrop-blur", className)}
+      className={cn(
+        "rounded-full bg-background/85 shadow-sm backdrop-blur hover:bg-background",
+        className,
+      )}
     >
       {heart}
     </Button>

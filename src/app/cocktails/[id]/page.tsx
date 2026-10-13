@@ -1,6 +1,12 @@
+import {
+  GlassWaterIcon,
+  LeafIcon,
+  ListChecksIcon,
+  type LucideIcon,
+  WineIcon,
+} from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Badge } from "@/components/ui/badge";
 import { BackButton } from "@/features/cocktails/components/back-button";
 import { CocktailImage } from "@/features/cocktails/components/cocktail-image";
 import { IngredientList } from "@/features/cocktails/components/ingredient-list";
@@ -50,48 +56,92 @@ export default async function CocktailPage({ params }: PageProps<"/cocktails/[id
     <article className="space-y-6">
       <BackButton />
 
-      <div className="grid gap-8 md:grid-cols-2 lg:gap-12">
-        <CocktailImage
-          src={cocktail.imageUrl}
-          alt={cocktail.name}
-          sizes="(min-width: 768px) 50vw, 100vw"
-          priority
-          className="rounded-2xl md:sticky md:top-20 md:self-start"
-        />
+      <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+        <div className="lg:sticky lg:top-24 lg:self-start">
+          <CocktailImage
+            src={cocktail.imageUrl}
+            alt={cocktail.name}
+            sizes="(min-width: 1024px) 45vw, 100vw"
+            preload
+            className="rounded-3xl shadow-2xl shadow-foreground/10"
+          />
+        </div>
 
-        <div className="space-y-8">
-          <header className="space-y-3">
-            <div className="flex flex-wrap gap-2">
-              <Badge variant="secondary">{cocktail.category}</Badge>
-              <Badge variant="outline">{cocktail.glass}</Badge>
-              <Badge variant={cocktail.alcoholic ? "default" : "secondary"}>
-                {cocktail.alcoholic ? "Alkoholowy" : "Bezalkoholowy"}
-              </Badge>
+        <div className="space-y-10">
+          <header className="space-y-5">
+            <div className="space-y-2">
+              <p className="text-xs font-semibold tracking-widest text-primary uppercase">
+                {cocktail.category}
+              </p>
+              <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+                {cocktail.name}
+              </h1>
             </div>
-            <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-              {cocktail.name}
-            </h1>
+
+            <dl className="grid grid-cols-3 gap-2 sm:gap-3">
+              <Fact icon={GlassWaterIcon} label="Szkło" value={cocktail.glass} />
+              <Fact
+                icon={cocktail.alcoholic ? WineIcon : LeafIcon}
+                label="Rodzaj"
+                value={cocktail.alcoholic ? "Alkoholowy" : "Bez alkoholu"}
+              />
+              <Fact
+                icon={ListChecksIcon}
+                label="Składniki"
+                value={String(cocktail.ingredients.length)}
+              />
+            </dl>
+
             <FavoriteButton cocktail={cocktail} variant="full" />
           </header>
 
-          <section className="space-y-3">
-            <h2 className="text-xl font-semibold">
-              Składniki{" "}
-              <span className="text-muted-foreground">
-                ({cocktail.ingredients.length})
-              </span>
-            </h2>
+          <section className="space-y-4">
+            <h2 className="text-2xl font-semibold">Składniki</h2>
             <IngredientList ingredients={cocktail.ingredients} />
           </section>
 
-          <section className="space-y-3">
-            <h2 className="text-xl font-semibold">Przygotowanie</h2>
-            <p className="leading-relaxed whitespace-pre-line text-muted-foreground">
-              {cocktail.instructions}
-            </p>
+          <section className="space-y-4">
+            <h2 className="text-2xl font-semibold">Przygotowanie</h2>
+            <ol className="space-y-4">
+              {splitIntoSteps(cocktail.instructions).map((step, index) => (
+                <li key={index} className="flex gap-4">
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary tabular-nums">
+                    {index + 1}
+                  </span>
+                  <p className="pt-1 leading-relaxed text-muted-foreground">{step}</p>
+                </li>
+              ))}
+            </ol>
           </section>
         </div>
       </div>
     </article>
   );
+}
+
+type FactProps = {
+  icon: LucideIcon;
+  label: string;
+  value: string;
+};
+
+/** Mały kafelek z jedną informacją o koktajlu. */
+function Fact({ icon: Icon, label, value }: FactProps) {
+  return (
+    <div className="space-y-1.5 rounded-2xl border bg-card p-3 sm:p-4">
+      <dt className="flex items-center gap-1.5 text-xs text-muted-foreground">
+        <Icon className="size-3.5" aria-hidden />
+        {label}
+      </dt>
+      <dd className="text-sm font-medium sm:text-base">{value}</dd>
+    </div>
+  );
+}
+
+/** Instrukcje z API to jeden akapit. Dzielimy go na zdania, żeby pokazać numerowane kroki. */
+function splitIntoSteps(instructions: string) {
+  return instructions
+    .split(/(?<=[.!?])\s+/)
+    .map((step) => step.trim())
+    .filter(Boolean);
 }

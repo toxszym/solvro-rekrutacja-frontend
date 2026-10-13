@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageHeader } from "@/components/page-header";
 import { FavoritesList } from "@/features/favorites/favorites-list";
 
 export const metadata: Metadata = {
@@ -7,13 +8,12 @@ export const metadata: Metadata = {
 
 export default function FavoritesPage() {
   return (
-    <div className="space-y-6">
-      <div className="space-y-1">
-        <h1 className="text-3xl font-bold tracking-tight">Ulubione</h1>
-        <p className="text-muted-foreground">
-          Koktajle, które oznaczyłeś serduszkiem. Zapisują się w tej przeglądarce.
-        </p>
-      </div>
+    <div className="space-y-8">
+      <PageHeader
+        eyebrow="Twoja kolekcja"
+        title="Ulubione"
+        description="Koktajle oznaczone serduszkiem. Zapisują się w tej przeglądarce, więc działają nawet offline."
+      />
       <FavoritesList />
     </div>
   );

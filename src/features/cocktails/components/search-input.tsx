@@ -39,7 +39,7 @@ export function SearchInput({ value: urlValue, onChange }: SearchInputProps) {
   return (
     <div className="relative">
       <SearchIcon
-        className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
+        className="pointer-events-none absolute top-1/2 left-3.5 size-4 -translate-y-1/2 text-muted-foreground"
         aria-hidden
       />
       <Input
@@ -48,13 +48,13 @@ export function SearchInput({ value: urlValue, onChange }: SearchInputProps) {
         onChange={(event) => setValue(event.target.value)}
         placeholder="Szukaj koktajlu po nazwie…"
         aria-label="Szukaj koktajlu"
-        className="h-10 pr-9 pl-9 [&::-webkit-search-cancel-button]:hidden"
+        className="h-11 rounded-xl bg-card pr-10 pl-10 text-base shadow-xs sm:text-sm [&::-webkit-search-cancel-button]:hidden"
       />
       {value && (
         <button
           type="button"
           onClick={() => setValue("")}
-          className="absolute top-1/2 right-2 -translate-y-1/2 rounded-md p-1 text-muted-foreground hover:text-foreground"
+          className="absolute top-1/2 right-2.5 -translate-y-1/2 rounded-md p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
           aria-label="Wyczyść wyszukiwanie"
         >
           <XIcon className="size-4" />

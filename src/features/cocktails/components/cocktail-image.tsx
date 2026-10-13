@@ -6,7 +6,8 @@ type CocktailImageProps = {
   src: string | null;
   alt: string;
   sizes: string;
-  priority?: boolean;
+  /** Wczytaj obrazek od razu (dla zdjęć widocznych bez przewijania). */
+  preload?: boolean;
   className?: string;
 };
 
@@ -14,7 +15,7 @@ export function CocktailImage({
   src,
   alt,
   sizes,
-  priority,
+  preload,
   className,
 }: CocktailImageProps) {
   return (
@@ -25,7 +26,7 @@ export function CocktailImage({
           alt={alt}
           fill
           sizes={sizes}
-          priority={priority}
+          preload={preload}
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
       ) : (

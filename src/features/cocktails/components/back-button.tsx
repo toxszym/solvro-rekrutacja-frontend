@@ -20,9 +20,13 @@ export function BackButton() {
   }
 
   return (
-    <Button variant="ghost" onClick={handleClick} className="-ml-2.5">
+    <Button
+      variant="ghost"
+      onClick={handleClick}
+      className="-ml-3 rounded-full text-muted-foreground hover:text-foreground"
+    >
       <ArrowLeftIcon />
-      Wróć
+      Wróć do listy
     </Button>
   );
 }

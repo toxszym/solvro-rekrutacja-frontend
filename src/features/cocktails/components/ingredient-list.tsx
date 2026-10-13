@@ -4,13 +4,13 @@ import type { Ingredient } from "../schemas";
 
 export function IngredientList({ ingredients }: { ingredients: Ingredient[] }) {
   return (
-    <ul className="divide-y rounded-xl border">
+    <ul className="divide-y overflow-hidden rounded-2xl border bg-card">
       {ingredients.map((ingredient) => {
         const description = describeIngredient(ingredient);
 
         return (
-          <li key={ingredient.id} className="flex items-center gap-3 p-3">
-            <div className="relative size-12 shrink-0 overflow-hidden rounded-lg bg-muted">
+          <li key={ingredient.id} className="flex items-center gap-4 p-3 sm:px-4">
+            <div className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-muted">
               {ingredient.imageUrl ? (
                 <Image
                   src={ingredient.imageUrl}
@@ -35,7 +35,7 @@ export function IngredientList({ ingredients }: { ingredients: Ingredient[] }) {
             </div>
 
             {ingredient.measure && (
-              <span className="shrink-0 text-sm font-medium tabular-nums">
+              <span className="shrink-0 rounded-full bg-muted px-3 py-1 text-sm font-medium tabular-nums">
                 {ingredient.measure.trim()}
               </span>
             )}

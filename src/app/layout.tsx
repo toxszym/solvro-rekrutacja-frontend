@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import { Bricolage_Grotesque, Geist, Geist_Mono } from "next/font/google";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import "./globals.css";
 import { Providers } from "./providers";
 
 const geistSans = Geist({
   variable: "--font-sans",
+  subsets: ["latin", "latin-ext"],
+});
+
+// Wyrazisty grotesk do nagłówków i logo. Tekst zostaje w spokojnym Geist.
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-display",
   subsets: ["latin", "latin-ext"],
 });
 
@@ -16,10 +23,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Koktajle",
-    template: "%s · Koktajle",
+    default: "Shaker – przepisy na koktajle",
+    template: "%s · Shaker",
   },
-  description: "Przeglądaj, wyszukuj i zapisuj ulubione koktajle.",
+  description:
+    "Shaker to zbiór przepisów na koktajle: szukaj po nazwie, filtruj i odkładaj ulubione na później.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -28,12 +36,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="pl"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${bricolage.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <Providers>
           <SiteHeader />
-          <main className="container mx-auto flex-1 px-4 py-8">{children}</main>
+          <main className="page-container flex-1 py-8 sm:py-10">{children}</main>
+          <SiteFooter />
         </Providers>
       </body>
     </html>

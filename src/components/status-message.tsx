@@ -16,15 +16,13 @@ export function StatusMessage({
   action,
 }: StatusMessageProps) {
   return (
-    <div className="flex flex-col items-center gap-3 py-16 text-center">
-      <div className="rounded-full bg-muted p-4 text-muted-foreground">
-        <Icon className="size-8" aria-hidden />
+    <div className="flex flex-col items-center gap-3 rounded-3xl bg-muted/60 px-6 py-16 text-center">
+      <div className="mb-2 flex size-16 items-center justify-center rounded-full bg-background text-primary">
+        <Icon className="size-7" aria-hidden />
       </div>
-      <h2 className="text-lg font-semibold">{title}</h2>
-      {description && (
-        <p className="max-w-sm text-sm text-muted-foreground">{description}</p>
-      )}
-      {action && <div className="mt-2">{action}</div>}
+      <h2 className="text-2xl font-semibold">{title}</h2>
+      {description && <p className="max-w-sm text-muted-foreground">{description}</p>}
+      {action && <div className="mt-3">{action}</div>}
     </div>
   );
 }
