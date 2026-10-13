@@ -26,6 +26,7 @@ export function CocktailList({ filters, toolbar }: CocktailListProps) {
     isPlaceholderData,
     hasNextPage,
     isFetchingNextPage,
+    isFetchNextPageError,
     fetchNextPage,
     refetch,
   } = useCocktailsInfinite(filters);
@@ -34,10 +35,25 @@ export function CocktailList({ filters, toolbar }: CocktailListProps) {
   const { ref: loadMoreRef, isInView } = useInView("600px");
 
   useEffect(() => {
-    if (isInView && hasNextPage && !isFetchingNextPage && !isPlaceholderData) {
+    // Po błędzie nie ponawiamy automatycznie: znacznik nadal jest na ekranie,
+    // więc zapytania leciałyby w kółko. Zostaje przycisk "Spróbuj ponownie".
+    if (
+      isInView &&
+      hasNextPage &&
+      !isFetchingNextPage &&
+      !isFetchNextPageError &&
+      !isPlaceholderData
+    ) {
       fetchNextPage();
     }
-  }, [isInView, hasNextPage, isFetchingNextPage, isPlaceholderData, fetchNextPage]);
+  }, [
+    isInView,
+    hasNextPage,
+    isFetchingNextPage,
+    isFetchNextPageError,
+    isPlaceholderData,
+    fetchNextPage,
+  ]);
 
   const cocktails = data?.pages.flatMap((page) => page.data) ?? [];
   const total = data?.pages[0]?.meta.total;
@@ -90,7 +106,11 @@ export function CocktailList({ filters, toolbar }: CocktailListProps) {
             className="rounded-full px-6"
           >
             {isFetchingNextPage && <Loader2Icon className="animate-spin" />}
-            {isFetchingNextPage ? "Ładowanie…" : "Pokaż więcej"}
+            {isFetchingNextPage
+              ? "Ładowanie…"
+              : isFetchNextPageError
+                ? "Spróbuj ponownie"
+                : "Pokaż więcej"}
           </Button>
         </div>
       )}
