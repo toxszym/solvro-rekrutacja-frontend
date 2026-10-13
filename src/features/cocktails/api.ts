@@ -52,6 +52,13 @@ export async function getCocktail(id: number, signal?: AbortSignal) {
   return response.data;
 }
 
+export async function getCategories(signal?: AbortSignal) {
+  const response = await apiGet("/cocktails/categories", stringListResponseSchema, {
+    signal,
+  });
+  return response.data;
+}
+
 export async function getGlasses(signal?: AbortSignal) {
   const response = await apiGet("/cocktails/glasses", stringListResponseSchema, {
     signal,

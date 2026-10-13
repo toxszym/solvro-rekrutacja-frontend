@@ -1,6 +1,6 @@
 "use client";
 
-import { FilterXIcon, XIcon } from "lucide-react";
+import { FilterXIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -16,12 +16,12 @@ import {
   hasActiveFilters,
   type SortOption,
 } from "../filters";
-import { useGlasses } from "../queries";
+import { useCategories, useGlasses } from "../queries";
 
 // Radix Select nie pozwala na pustą wartość, więc "brak filtra" to "all".
 const ALL = "all";
 
-const ALCOHOLIC_LABELS: Record<AlcoholicOption, string> = {
+export const ALCOHOLIC_LABELS: Record<AlcoholicOption, string> = {
   all: "Każdy rodzaj",
   alcoholic: "Alkoholowe",
   "non-alcoholic": "Bezalkoholowe",
@@ -33,17 +33,30 @@ const SORT_LABELS: Record<SortOption, string> = {
   newest: "Najnowsze",
 };
 
-type FiltersProps = {
+export type FiltersProps = {
   filters: Filters;
   onChange: (changes: Partial<Filters>, options?: { replace?: boolean }) => void;
 };
 
-/** Filtry szkła i alkoholu. Wyszukiwarka jest osobno, bo przykleja się do góry ekranu. */
+/**
+ * Filtry na większych ekranach: trzy listy rozwijane pod wyszukiwarką.
+ * Na telefonie zastępuje je panel wysuwany z dołu (MobileFilters).
+ */
 export function CocktailFilters({ filters, onChange }: FiltersProps) {
+  const { data: categories = [] } = useCategories();
   const { data: glasses = [] } = useGlasses();
 
   return (
-    <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
+    <div className="hidden gap-2 sm:grid sm:grid-cols-3 lg:flex">
+      <FilterSelect
+        label="Kategoria"
+        value={filters.category ?? ALL}
+        onValueChange={(value) => onChange({ category: value === ALL ? null : value })}
+        options={[
+          { value: ALL, label: "Każda kategoria" },
+          ...categories.map((category) => ({ value: category, label: category })),
+        ]}
+      />
       <FilterSelect
         label="Szkło"
         value={filters.glass ?? ALL}
@@ -62,20 +75,6 @@ export function CocktailFilters({ filters, onChange }: FiltersProps) {
           label,
         }))}
       />
-
-      {/* Kategorię ustawiają skróty na górze strony. Tu tylko widać, że jest aktywna,
-          i można ją zdjąć. */}
-      {filters.category && (
-        <button
-          type="button"
-          onClick={() => onChange({ category: null })}
-          aria-label={`Usuń filtr kategorii: ${filters.category}`}
-          className="col-span-2 flex h-11 items-center justify-between gap-2 rounded-xl bg-foreground pr-3 pl-4 text-sm font-medium text-background transition-opacity hover:opacity-85 sm:justify-start"
-        >
-          <span className="truncate">{filters.category}</span>
-          <XIcon className="size-4 shrink-0" aria-hidden />
-        </button>
-      )}
     </div>
   );
 }
@@ -101,7 +100,7 @@ export function ResultsToolbar({ filters, onChange, onReset }: ResultsToolbarPro
         value={filters.sort}
         onValueChange={(value) => onChange({ sort: value as SortOption })}
         options={Object.entries(SORT_LABELS).map(([value, label]) => ({ value, label }))}
-        className="w-36 sm:w-36"
+        className="w-36 lg:w-36"
       />
     </div>
   );
@@ -127,7 +126,7 @@ function FilterSelect({
       <SelectTrigger
         aria-label={label}
         className={cn(
-          "w-full rounded-xl bg-card data-[size=default]:h-11 sm:w-52",
+          "w-full rounded-xl bg-card data-[size=default]:h-11 lg:w-56",
           className,
         )}
       >

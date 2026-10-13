@@ -15,8 +15,8 @@ Dane pochodzą z [Cocktails API](https://cocktails.solvro.pl).
 
 - **Lista koktajli** z infinite scrollem
 - **Wyszukiwanie po nazwie** z debouncingiem (jedno zapytanie po skończeniu pisania, a nie po każdej literze)
-- **Filtrowanie** po rodzaju szkła i zawartości alkoholu, skróty do kategorii na stronie głównej
-  oraz **sortowanie** po nazwie lub od najnowszych
+- **Filtrowanie** po kategorii, rodzaju szkła i zawartości alkoholu oraz **sortowanie** po nazwie
+  lub od najnowszych; na telefonie filtry są w panelu wysuwanym z dołu
 - **Przyklejona wyszukiwarka** – przy przewijaniu listy zostaje pod nagłówkiem, więc nie trzeba
   wracać na górę
 - **Filtry zapisane w URL** – link z wynikami można komuś wysłać, a przycisk „wstecz” działa

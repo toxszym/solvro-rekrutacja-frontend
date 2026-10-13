@@ -4,15 +4,18 @@ import { SearchIcon, XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useDebounce } from "@/hooks/use-debounce";
+import { cn } from "@/lib/utils";
 
 type SearchInputProps = {
   /** Wartość z URL. */
   value: string;
   /** Wywoływane z opóźnieniem, gdy użytkownik przestanie pisać. */
   onChange: (value: string) => void;
+  /** Klasy pola, np. gdy obramowanie i tło daje element nadrzędny. */
+  className?: string;
 };
 
-export function SearchInput({ value: urlValue, onChange }: SearchInputProps) {
+export function SearchInput({ value: urlValue, onChange, className }: SearchInputProps) {
   // Pole ma własny stan, żeby pisanie było płynne. Do URL (i do API)
   // trafia dopiero wartość "uspokojona" przez debounce.
   const [value, setValue] = useState(urlValue);
@@ -48,7 +51,10 @@ export function SearchInput({ value: urlValue, onChange }: SearchInputProps) {
         onChange={(event) => setValue(event.target.value)}
         placeholder="Szukaj koktajlu po nazwie…"
         aria-label="Szukaj koktajlu"
-        className="h-11 rounded-xl bg-card pr-10 pl-10 text-base shadow-xs sm:text-sm [&::-webkit-search-cancel-button]:hidden"
+        className={cn(
+          "h-11 rounded-xl bg-card pr-10 pl-10 text-base shadow-xs sm:text-sm [&::-webkit-search-cancel-button]:hidden",
+          className,
+        )}
       />
       {value && (
         <button
