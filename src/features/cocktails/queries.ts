@@ -1,5 +1,5 @@
 import { keepPreviousData, useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { getCategories, getCocktails, getGlasses } from "./api";
+import { getCocktails, getGlasses } from "./api";
 import type { CocktailFilters } from "./filters";
 
 /**
@@ -9,7 +9,6 @@ import type { CocktailFilters } from "./filters";
 export const cocktailKeys = {
   all: ["cocktails"] as const,
   list: (filters: CocktailFilters) => [...cocktailKeys.all, "list", filters] as const,
-  categories: () => [...cocktailKeys.all, "categories"] as const,
   glasses: () => [...cocktailKeys.all, "glasses"] as const,
 };
 
@@ -26,16 +25,8 @@ export function useCocktailsInfinite(filters: CocktailFilters) {
   });
 }
 
-// Kategorie i rodzaje szkła praktycznie się nie zmieniają.
+// Rodzaje szkła praktycznie się nie zmieniają.
 const STATIC_DATA_STALE_TIME = 24 * 60 * 60 * 1000;
-
-export function useCategories() {
-  return useQuery({
-    queryKey: cocktailKeys.categories(),
-    queryFn: ({ signal }) => getCategories(signal),
-    staleTime: STATIC_DATA_STALE_TIME,
-  });
-}
 
 export function useGlasses() {
   return useQuery({

@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { BackButton } from "@/features/cocktails/components/back-button";
+import { CopyLinkButton } from "@/features/cocktails/components/copy-link-button";
 import { CocktailImage } from "@/features/cocktails/components/cocktail-image";
 import { IngredientList } from "@/features/cocktails/components/ingredient-list";
 import { FavoriteButton } from "@/features/favorites/favorite-button";
@@ -95,7 +96,10 @@ export default async function CocktailPage({ params }: PageProps<"/cocktails/[id
               </Fact>
             </ul>
 
-            <FavoriteButton cocktail={cocktail} variant="full" />
+            <div className="flex flex-wrap gap-2">
+              <FavoriteButton cocktail={cocktail} variant="full" />
+              <CopyLinkButton />
+            </div>
           </div>
         </header>
 

@@ -39,7 +39,6 @@ export function getCocktails(
       name: search ? `%${search}%` : undefined,
       category: filters.category ?? undefined,
       glass: filters.glass ?? undefined,
-      instructions: filters.technique ? `%${filters.technique}%` : undefined,
       alcoholic: ALCOHOLIC_PARAM[filters.alcoholic],
       sort: SORT_PARAM[filters.sort],
     },
@@ -48,13 +47,6 @@ export function getCocktails(
 
 export async function getCocktail(id: number, signal?: AbortSignal) {
   const response = await apiGet(`/cocktails/${id}`, cocktailDetailsResponseSchema, {
-    signal,
-  });
-  return response.data;
-}
-
-export async function getCategories(signal?: AbortSignal) {
-  const response = await apiGet("/cocktails/categories", stringListResponseSchema, {
     signal,
   });
   return response.data;
