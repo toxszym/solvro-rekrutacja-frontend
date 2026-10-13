@@ -1,45 +1,30 @@
 "use client";
 
-import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
+import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
-const THEMES = [
-  { value: "light", label: "Jasny", icon: SunIcon },
-  { value: "dark", label: "Ciemny", icon: MoonIcon },
-  { value: "system", label: "Systemowy", icon: MonitorIcon },
-];
-
+/**
+ * Jedno kliknięcie przełącza jasny/ciemny. Dopóki użytkownik nic nie kliknie,
+ * obowiązuje motyw systemowy (defaultTheme="system" w Providers).
+ */
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon-lg" aria-label="Zmień motyw">
-          {/* Ikonę wybiera CSS (klasa .dark na <html>), a nie JS, więc nie ma
-              niezgodności między serwerem a przeglądarką przy hydratacji. */}
-          <SunIcon className="dark:hidden" />
-          <MoonIcon className="hidden dark:block" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
-          {THEMES.map(({ value, label, icon: Icon }) => (
-            <DropdownMenuRadioItem key={value} value={value}>
-              <Icon />
-              {label}
-            </DropdownMenuRadioItem>
-          ))}
-        </DropdownMenuRadioGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Button
+      variant="ghost"
+      size="icon-lg"
+      onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
+      className="rounded-full"
+      // Stały opis: `resolvedTheme` nie jest znany na serwerze, więc tekst zależny
+      // od motywu różniłby się przy hydratacji.
+      aria-label="Przełącz motyw jasny/ciemny"
+      title="Przełącz motyw"
+    >
+      {/* Ikonę wybiera CSS (klasa .dark na <html>), a nie JS, z tego samego powodu. */}
+      <SunIcon className="dark:hidden" />
+      <MoonIcon className="hidden dark:block" />
+    </Button>
   );
 }
