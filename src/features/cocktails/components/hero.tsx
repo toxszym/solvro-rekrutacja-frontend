@@ -59,7 +59,7 @@ export function Hero() {
               <Link
                 href={shortcut.href}
                 scroll={false}
-                className="group flex items-center justify-between gap-2 rounded-2xl border bg-card px-4 py-3 font-medium transition-colors hover:border-primary hover:text-primary"
+                className="group flex items-center justify-between gap-2 rounded-2xl border bg-card px-3 py-3 text-sm font-medium transition-colors hover:border-primary hover:text-primary sm:px-4 sm:text-base"
               >
                 {shortcut.label}
                 <ArrowUpRightIcon

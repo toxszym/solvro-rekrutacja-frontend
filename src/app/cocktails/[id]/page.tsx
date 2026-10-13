@@ -7,12 +7,14 @@ import {
 } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import type { ReactNode } from "react";
 import { BackButton } from "@/features/cocktails/components/back-button";
 import { CocktailImage } from "@/features/cocktails/components/cocktail-image";
 import { IngredientList } from "@/features/cocktails/components/ingredient-list";
 import { FavoriteButton } from "@/features/favorites/favorite-button";
 import { getAllCocktailIds, getCocktail } from "@/features/cocktails/api";
 import { ApiError } from "@/lib/api-client";
+import { pluralize } from "@/lib/plural";
 
 // Na serwerze Node strona jest odświeżana w tle najwyżej raz na dobę (ISR),
 // więc API Solvro nie dostaje zapytania przy każdym wejściu.
@@ -51,64 +53,70 @@ export async function generateMetadata({
 
 export default async function CocktailPage({ params }: PageProps<"/cocktails/[id]">) {
   const cocktail = await getCocktailOrNotFound(params);
+  const steps = splitIntoSteps(cocktail.instructions);
 
   return (
     <article className="space-y-6">
       <BackButton />
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
-        <div className="lg:sticky lg:top-24 lg:self-start">
+      <div className="space-y-10 lg:space-y-14">
+        {/* Zdjęcie i najważniejsze informacje. Na telefonie zdjęcie jest niższe (4:3),
+            żeby tytuł był widoczny bez przewijania. */}
+        <header className="grid gap-6 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:items-center sm:gap-8 lg:grid-cols-[24rem_minmax(0,1fr)] lg:gap-12">
           <CocktailImage
             src={cocktail.imageUrl}
             alt={cocktail.name}
-            sizes="(min-width: 1024px) 45vw, 100vw"
+            sizes="(min-width: 1024px) 384px, (min-width: 640px) 40vw, 100vw"
             preload
-            className="rounded-3xl shadow-2xl shadow-foreground/10"
+            className="aspect-[4/3] rounded-3xl shadow-xl shadow-foreground/10 sm:aspect-square"
           />
-        </div>
 
-        <div className="space-y-10">
-          <header className="space-y-5">
+          <div className="space-y-5">
             <div className="space-y-2">
               <p className="text-xs font-semibold tracking-widest text-primary uppercase">
                 {cocktail.category}
               </p>
-              <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+              <h1 className="text-4xl font-semibold tracking-tight wrap-break-word sm:text-5xl lg:text-6xl">
                 {cocktail.name}
               </h1>
             </div>
 
-            <dl className="grid grid-cols-3 gap-2 sm:gap-3">
-              <Fact icon={GlassWaterIcon} label="Szkło" value={cocktail.glass} />
-              <Fact
-                icon={cocktail.alcoholic ? WineIcon : LeafIcon}
-                label="Rodzaj"
-                value={cocktail.alcoholic ? "Alkoholowy" : "Bez alkoholu"}
-              />
-              <Fact
-                icon={ListChecksIcon}
-                label="Składniki"
-                value={String(cocktail.ingredients.length)}
-              />
-            </dl>
+            <ul className="flex flex-wrap gap-2">
+              <Fact icon={GlassWaterIcon}>{cocktail.glass}</Fact>
+              <Fact icon={cocktail.alcoholic ? WineIcon : LeafIcon}>
+                {cocktail.alcoholic ? "Alkoholowy" : "Bez alkoholu"}
+              </Fact>
+              <Fact icon={ListChecksIcon}>
+                {pluralize(cocktail.ingredients.length, {
+                  one: "składnik",
+                  few: "składniki",
+                  many: "składników",
+                })}
+              </Fact>
+            </ul>
 
             <FavoriteButton cocktail={cocktail} variant="full" />
-          </header>
+          </div>
+        </header>
 
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-16">
           <section className="space-y-4">
-            <h2 className="text-2xl font-semibold">Składniki</h2>
+            <h2 className="text-2xl font-semibold sm:text-3xl">Składniki</h2>
             <IngredientList ingredients={cocktail.ingredients} />
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-semibold">Przygotowanie</h2>
-            <ol className="space-y-4">
-              {splitIntoSteps(cocktail.instructions).map((step, index) => (
-                <li key={index} className="flex gap-4">
-                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary tabular-nums">
-                    {index + 1}
+            <h2 className="text-2xl font-semibold sm:text-3xl">Przygotowanie</h2>
+            <ol className="divide-y border-y">
+              {steps.map((step, index) => (
+                <li key={index} className="flex gap-4 py-4 sm:gap-6 sm:py-5">
+                  <span
+                    className="w-8 shrink-0 font-heading text-2xl leading-7 font-bold text-primary tabular-nums sm:w-10 sm:text-3xl sm:leading-8"
+                    aria-hidden
+                  >
+                    {String(index + 1).padStart(2, "0")}
                   </span>
-                  <p className="pt-1 leading-relaxed text-muted-foreground">{step}</p>
+                  <p className="text-base leading-7 sm:text-lg sm:leading-8">{step}</p>
                 </li>
               ))}
             </ol>
@@ -121,20 +129,16 @@ export default async function CocktailPage({ params }: PageProps<"/cocktails/[id
 
 type FactProps = {
   icon: LucideIcon;
-  label: string;
-  value: string;
+  children: ReactNode;
 };
 
-/** Mały kafelek z jedną informacją o koktajlu. */
-function Fact({ icon: Icon, label, value }: FactProps) {
+/** Pigułka z jedną informacją o koktajlu. */
+function Fact({ icon: Icon, children }: FactProps) {
   return (
-    <div className="space-y-1.5 rounded-2xl border bg-card p-3 sm:p-4">
-      <dt className="flex items-center gap-1.5 text-xs text-muted-foreground">
-        <Icon className="size-3.5" aria-hidden />
-        {label}
-      </dt>
-      <dd className="text-sm font-medium sm:text-base">{value}</dd>
-    </div>
+    <li className="flex items-center gap-2 rounded-full border bg-card px-3.5 py-1.5 text-sm font-medium">
+      <Icon className="size-4 text-muted-foreground" aria-hidden />
+      {children}
+    </li>
   );
 }
 
