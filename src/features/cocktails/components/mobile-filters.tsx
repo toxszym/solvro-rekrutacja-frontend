@@ -58,7 +58,7 @@ export function MobileFilters({ filters, onChange, onReset }: MobileFiltersProps
           type="button"
           aria-label={activeCount > 0 ? `Filtry (aktywne: ${activeCount})` : "Filtry"}
           className={cn(
-            "relative flex size-9 shrink-0 items-center justify-center rounded-full transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50 sm:hidden",
+            "relative flex size-10 shrink-0 items-center justify-center rounded-full transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50 sm:hidden",
             activeCount > 0
               ? "bg-foreground text-background"
               : "bg-muted text-foreground hover:bg-muted/70",
@@ -254,7 +254,7 @@ export function ActiveFilterChips({ filters, onChange }: FiltersProps) {
   if (chips.length === 0) return null;
 
   return (
-    <ul className="-mx-4 scrollbar-none flex gap-2 overflow-x-auto px-4 sm:hidden">
+    <ul className="mt-1 scrollbar-none flex gap-2 overflow-x-auto sm:hidden">
       {chips.map((chip) => (
         <li key={chip.label} className="shrink-0">
           <button

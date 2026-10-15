@@ -24,7 +24,7 @@ Dane pochodzą z [Cocktails API](https://cocktails.solvro.pl).
 - **Kopiowanie linku** do koktajlu jednym kliknięciem
 - **Strony składników** – opis, typ i moc oraz wszystkie koktajle z danym składnikiem
 - **Ulubione** zapisywane w `localStorage`, z osobną stroną i licznikiem w nawigacji
-- **Jasny i ciemny motyw** (domyślnie zgodny z systemem)
+- **Jasny i ciemny motyw** (domyślnie ciemny, wybór zapamiętywany w przeglądarce)
 - **Cache danych** zapisywany w przeglądarce – po ponownym wejściu lista pokazuje się od razu,
   nawet gdy API jest niedostępne
 - **Animacje** (z poszanowaniem ustawienia „ogranicz ruch” w systemie)

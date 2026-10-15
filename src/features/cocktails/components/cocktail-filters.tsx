@@ -47,7 +47,7 @@ export function CocktailFilters({ filters, onChange }: FiltersProps) {
   const { data: glasses = [] } = useGlasses();
 
   return (
-    <div className="hidden gap-2 sm:grid sm:grid-cols-3 lg:flex">
+    <div className="mt-1 hidden gap-2 sm:grid sm:grid-cols-3 lg:flex">
       <FilterSelect
         label="Kategoria"
         value={filters.category ?? ALL}

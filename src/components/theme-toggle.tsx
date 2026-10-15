@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 /**
  * Jedno kliknięcie przełącza jasny/ciemny. Dopóki użytkownik nic nie kliknie,
- * obowiązuje motyw systemowy (defaultTheme="system" w Providers).
+ * obowiązuje ciemny motyw (defaultTheme="dark" w Providers).
  */
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();

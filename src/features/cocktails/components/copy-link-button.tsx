@@ -33,7 +33,7 @@ export function CopyLinkButton() {
       className="h-11 rounded-full px-5"
     >
       {copied ? <CheckIcon className="text-emerald-600" /> : <LinkIcon />}
-      <span aria-live="polite">{copied ? "Skopiowano" : "Kopiuj link"}</span>
+      <span aria-live="polite">{copied ? "Skopiowano" : "Udostępnij"}</span>
     </Button>
   );
 }

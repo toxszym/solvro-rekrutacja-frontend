@@ -1,4 +1,4 @@
-import { GlassWaterIcon, LeafIcon } from "lucide-react";
+import { ArrowRightIcon, LeafIcon, WineIcon } from "lucide-react";
 import Link from "next/link";
 import { FavoriteButton } from "@/features/favorites/favorite-button";
 import type { FavoriteCocktail } from "@/features/favorites/favorites-store";
@@ -11,44 +11,58 @@ type CocktailCardProps = {
 
 export function CocktailCard({ cocktail, preload }: CocktailCardProps) {
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-card transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-foreground/5">
+    <article className="group relative flex h-full flex-col rounded-2xl border bg-card p-1.5 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-foreground/5 sm:p-2">
       {/* Link rozciągnięty pseudo-elementem ::after na całą kartę,
           dzięki czemu cała karta jest klikalna, a przycisk serduszka działa osobno. */}
       <Link
         href={`/cocktails/${cocktail.id}`}
         className="flex flex-1 flex-col outline-none after:absolute after:inset-0 after:rounded-2xl focus-visible:after:ring-3 focus-visible:after:ring-ring/50"
       >
+        {/* Zdjęcie z odstępem od krawędzi karty, jak odbitka w passe-partout. */}
         <CocktailImage
           src={cocktail.imageUrl}
           alt={cocktail.name}
           preload={preload}
           sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, 50vw"
-          className="aspect-[4/5]"
+          className="aspect-[6/5] rounded-xl"
         />
 
-        <div className="flex flex-1 flex-col gap-1 p-3 sm:p-4">
-          <p className="truncate text-[11px] font-semibold tracking-widest text-primary uppercase">
-            {cocktail.category}
-          </p>
+        <div className="flex flex-1 flex-col gap-1 px-1.5 pt-3 pb-1 sm:px-2">
           <h3 className="line-clamp-2 font-heading text-base leading-snug font-semibold sm:text-lg">
             {cocktail.name}
           </h3>
-          <p className="mt-auto flex items-center gap-1.5 pt-2 text-xs text-muted-foreground sm:text-sm">
-            <GlassWaterIcon className="size-3.5 shrink-0" aria-hidden />
-            <span className="truncate">{cocktail.glass}</span>
+          <p className="truncate text-xs text-muted-foreground sm:text-sm">
+            {cocktail.category} · {cocktail.glass}
           </p>
+
+          <div className="mt-auto flex items-center justify-between gap-2 border-t pt-2.5 text-xs sm:mt-3 sm:pt-3">
+            {cocktail.alcoholic ? (
+              <span className="flex items-center gap-1.5 text-muted-foreground">
+                <WineIcon className="size-3.5" aria-hidden />
+                <span className="sr-only sm:not-sr-only">Z alkoholem</span>
+              </span>
+            ) : (
+              <span className="flex items-center gap-1.5 font-medium text-emerald-700 dark:text-emerald-400">
+                <LeafIcon className="size-3.5" aria-hidden />
+                <span className="sr-only sm:not-sr-only">Bez alkoholu</span>
+              </span>
+            )}
+            <span className="flex items-center gap-1 font-semibold text-primary">
+              Przepis
+              <ArrowRightIcon
+                className="size-3.5 transition-transform group-hover:translate-x-0.5"
+                aria-hidden
+              />
+            </span>
+          </div>
         </div>
       </Link>
 
-      {!cocktail.alcoholic && (
-        <span className="absolute top-3 left-3 inline-flex items-center gap-1 rounded-full bg-background/85 px-2 py-1 text-xs font-medium text-emerald-700 shadow-sm backdrop-blur dark:text-emerald-400">
-          <LeafIcon className="size-3" aria-hidden />
-          <span className="sr-only sm:not-sr-only">Bez alkoholu</span>
-        </span>
-      )}
-
       {/* z-10, żeby przycisk był nad linkiem rozciągniętym na całą kartę */}
-      <FavoriteButton cocktail={cocktail} className="absolute top-3 right-3 z-10" />
+      <FavoriteButton
+        cocktail={cocktail}
+        className="absolute top-3.5 right-3.5 z-10 sm:top-4 sm:right-4"
+      />
     </article>
   );
 }

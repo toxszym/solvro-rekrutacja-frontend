@@ -94,6 +94,23 @@ async function getAllPages<T>(
   return items;
 }
 
+/** Liczby do strony głównej. `perPage: 1`, bo potrzebujemy tylko `meta.total`. */
+export async function getCocktailStats() {
+  const [all, nonAlcoholic, categories] = await Promise.all([
+    apiGet("/cocktails", cocktailsPageSchema, { params: { perPage: 1 } }),
+    apiGet("/cocktails", cocktailsPageSchema, {
+      params: { perPage: 1, alcoholic: false },
+    }),
+    getCategories(),
+  ]);
+
+  return {
+    cocktails: all.meta.total,
+    nonAlcoholic: nonAlcoholic.meta.total,
+    categories: categories.length,
+  };
+}
+
 /** Wszystkie koktajle zawierające dany składnik. */
 export function getCocktailsByIngredient(ingredientId: number): Promise<Cocktail[]> {
   return getAllPages((page) =>

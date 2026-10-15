@@ -50,26 +50,26 @@
 
 :root {
   /* Ciepłe neutralne kolory (lekko "kremowe") zamiast czystej szarości
-     i terakotowy akcent, który kojarzy się z barem i cytrusami. */
-  --background: oklch(0.985 0.004 80);
+     i rdzawy akcent, który kojarzy się z barem, whisky i skórką pomarańczy. */
+  --background: oklch(0.975 0.005 80);
   --foreground: oklch(0.21 0.015 50);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.21 0.015 50);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.21 0.015 50);
-  --primary: oklch(0.6 0.165 40);
+  --primary: oklch(0.52 0.13 45);
   --primary-foreground: oklch(0.985 0.01 80);
   --secondary: oklch(0.95 0.01 75);
   --secondary-foreground: oklch(0.28 0.02 50);
-  --muted: oklch(0.955 0.008 75);
-  --muted-foreground: oklch(0.52 0.02 55);
+  --muted: oklch(0.955 0.007 75);
+  --muted-foreground: oklch(0.5 0.018 55);
   --accent: oklch(0.94 0.02 65);
   --accent-foreground: oklch(0.28 0.02 50);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.905 0.012 70);
+  --border: oklch(0.91 0.01 70);
   --input: oklch(0.89 0.012 70);
-  --ring: oklch(0.6 0.165 40);
-  --chart-1: oklch(0.6 0.165 40);
+  --ring: oklch(0.52 0.13 45);
+  --chart-1: oklch(0.52 0.13 45);
   --chart-2: oklch(0.7 0.12 80);
   --chart-3: oklch(0.55 0.1 150);
   --chart-4: oklch(0.45 0.08 30);
@@ -77,12 +77,12 @@
   --radius: 0.75rem;
   --sidebar: oklch(0.975 0.006 75);
   --sidebar-foreground: oklch(0.21 0.015 50);
-  --sidebar-primary: oklch(0.6 0.165 40);
+  --sidebar-primary: oklch(0.52 0.13 45);
   --sidebar-primary-foreground: oklch(0.985 0.01 80);
   --sidebar-accent: oklch(0.94 0.02 65);
   --sidebar-accent-foreground: oklch(0.28 0.02 50);
-  --sidebar-border: oklch(0.905 0.012 70);
-  --sidebar-ring: oklch(0.6 0.165 40);
+  --sidebar-border: oklch(0.91 0.01 70);
+  --sidebar-ring: oklch(0.52 0.13 45);
 }
 
 .dark {
