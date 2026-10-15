@@ -3,13 +3,7 @@
 Aplikacja webowa do przeglądania koktajli, zrobiona jako zadanie rekrutacyjne do KN Solvro.
 Dane pochodzą z [Cocktails API](https://cocktails.solvro.pl).
 
-<!-- TODO: link do wersji online -->
-
-![Strona główna](docs/home.jpg)
-
-| Lista z filtrami        | Szczegóły koktajlu             | Telefon, ciemny motyw      |
-| ----------------------- | ------------------------------ | -------------------------- |
-| ![Lista](docs/list.jpg) | ![Szczegóły](docs/details.jpg) | ![Mobile](docs/mobile.jpg) |
+**Wersja online:** _link wkrótce_ <!-- TODO: wstawić link po wdrożeniu -->
 
 ## Funkcje
 
