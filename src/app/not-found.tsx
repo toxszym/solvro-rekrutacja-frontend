@@ -10,7 +10,7 @@ export default function NotFound() {
       title="Nie znaleziono strony"
       description="Ten kieliszek jest pusty. Strona, której szukasz, nie istnieje."
       action={
-        <Button asChild>
+        <Button asChild size="lg" className="h-11 rounded-xl px-5">
           <Link href="/">Wróć do listy koktajli</Link>
         </Button>
       }

@@ -16,7 +16,7 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon-lg"
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
-      className="rounded-full"
+      className="rounded-lg"
       // Stały opis: `resolvedTheme` nie jest znany na serwerze, więc tekst zależny
       // od motywu różniłby się przy hydratacji.
       aria-label="Przełącz motyw jasny/ciemny"

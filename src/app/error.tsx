@@ -21,7 +21,11 @@ export default function ErrorPage({ error, retry }: ErrorPageProps) {
       icon={TriangleAlertIcon}
       title="Coś poszło nie tak"
       description="Nie udało się wczytać tej strony. Sprawdź połączenie z internetem i spróbuj ponownie."
-      action={<Button onClick={() => retry()}>Spróbuj ponownie</Button>}
+      action={
+        <Button size="lg" onClick={() => retry()} className="h-11 rounded-xl px-5">
+          Spróbuj ponownie
+        </Button>
+      }
     />
   );
 }

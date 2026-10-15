@@ -23,7 +23,7 @@ export function BackButton({ label = "Wróć do listy" }: { label?: string }) {
     <Button
       variant="ghost"
       onClick={handleClick}
-      className="-ml-3 rounded-full text-muted-foreground hover:text-foreground"
+      className="-ml-3 rounded-lg text-muted-foreground hover:text-foreground"
     >
       <ArrowLeftIcon />
       {label}

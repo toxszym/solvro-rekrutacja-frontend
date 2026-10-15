@@ -45,7 +45,7 @@ function NavLink({ href, icon: Icon, active, children }: NavLinkProps) {
       href={href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "flex items-center gap-1.5 rounded-full px-2.5 py-1.5 font-medium transition-colors sm:px-3",
+        "flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 font-medium transition-colors sm:px-3",
         active
           ? "bg-foreground text-background"
           : "text-muted-foreground hover:bg-muted hover:text-foreground",

@@ -30,7 +30,7 @@ export function CopyLinkButton() {
       variant="outline"
       size="lg"
       onClick={handleClick}
-      className="h-11 rounded-full px-5"
+      className="h-11 rounded-xl px-5"
     >
       {copied ? <CheckIcon className="text-emerald-600" /> : <LinkIcon />}
       <span aria-live="polite">{copied ? "Skopiowano" : "Udostępnij"}</span>

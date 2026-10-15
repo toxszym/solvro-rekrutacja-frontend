@@ -5,7 +5,7 @@ import type { Ingredient } from "../schemas";
 
 export function IngredientList({ ingredients }: { ingredients: Ingredient[] }) {
   return (
-    <ul className="divide-y overflow-hidden rounded-2xl border bg-card">
+    <ul className="divide-y overflow-hidden rounded-2xl border bg-card shadow-xs">
       {ingredients.map((ingredient) => {
         const description = describeIngredient(ingredient);
 

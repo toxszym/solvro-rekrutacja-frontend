@@ -61,7 +61,7 @@ export default async function IngredientPage({ params }: PageProps<"/ingredients
       <div className="space-y-6">
         <BackButton label="Wróć" />
 
-        <header className="rounded-3xl bg-muted/60 p-5 sm:p-8 lg:p-10">
+        <header className="rounded-3xl border bg-card p-5 shadow-xs sm:p-8 lg:p-10">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8 lg:gap-12">
             {/* Wiele składników nie ma zdjęcia: wtedy zamiast dużego pustego kafla
                 pokazujemy małą ikonę obok nazwy. */}

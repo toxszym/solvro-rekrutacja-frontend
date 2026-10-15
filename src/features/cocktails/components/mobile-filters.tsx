@@ -58,7 +58,7 @@ export function MobileFilters({ filters, onChange, onReset }: MobileFiltersProps
           type="button"
           aria-label={activeCount > 0 ? `Filtry (aktywne: ${activeCount})` : "Filtry"}
           className={cn(
-            "relative flex size-10 shrink-0 items-center justify-center rounded-full transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50 sm:hidden",
+            "relative flex size-10 shrink-0 items-center justify-center rounded-xl transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50 sm:hidden",
             activeCount > 0
               ? "bg-foreground text-background"
               : "bg-muted text-foreground hover:bg-muted/70",
@@ -92,7 +92,7 @@ export function MobileFilters({ filters, onChange, onReset }: MobileFiltersProps
               <Button
                 variant="ghost"
                 size="icon-lg"
-                className="-mr-2 rounded-full"
+                className="-mr-2 rounded-lg"
                 aria-label="Zamknij filtry"
               >
                 <XIcon className="size-5" />
@@ -171,14 +171,14 @@ export function MobileFilters({ filters, onChange, onReset }: MobileFiltersProps
               variant="outline"
               onClick={onReset}
               disabled={activeCount === 0 && filters.search === ""}
-              className="h-12 rounded-full px-5 text-base"
+              className="h-12 rounded-xl px-5 text-base"
             >
               Wyczyść
             </Button>
             <Dialog.Close asChild>
               <Button
                 className={cn(
-                  "h-12 flex-1 rounded-full text-base transition-opacity",
+                  "h-12 flex-1 rounded-xl text-base transition-opacity",
                   isPlaceholderData && "opacity-70",
                 )}
               >

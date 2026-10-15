@@ -16,8 +16,8 @@ export function StatusMessage({
   action,
 }: StatusMessageProps) {
   return (
-    <div className="flex flex-col items-center gap-3 rounded-3xl bg-muted/60 px-6 py-16 text-center">
-      <div className="mb-2 flex size-16 items-center justify-center rounded-full bg-background text-primary">
+    <div className="flex flex-col items-center gap-3 rounded-3xl border bg-card px-6 py-16 text-center shadow-xs">
+      <div className="mb-2 flex size-16 items-center justify-center rounded-2xl bg-muted text-primary">
         <Icon className="size-7" aria-hidden />
       </div>
       <h2 className="text-2xl font-semibold">{title}</h2>

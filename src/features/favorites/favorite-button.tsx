@@ -45,7 +45,7 @@ export function FavoriteButton({
         size="lg"
         onClick={() => toggleFavorite(cocktail)}
         aria-pressed={active}
-        className={cn("h-11 rounded-full px-5", className)}
+        className={cn("h-11 rounded-xl px-5", className)}
       >
         {heart}
         {active ? "W ulubionych" : "Dodaj do ulubionych"}

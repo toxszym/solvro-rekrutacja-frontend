@@ -29,7 +29,7 @@ export function FavoritesList() {
         title="Nie masz jeszcze ulubionych"
         description="Kliknij serduszko przy koktajlu, a pojawi się tutaj."
         action={
-          <Button asChild>
+          <Button asChild size="lg" className="h-11 rounded-xl px-5">
             <Link href="/">Przeglądaj koktajle</Link>
           </Button>
         }

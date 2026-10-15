@@ -75,7 +75,11 @@ export function CocktailList({ filters, toolbar }: CocktailListProps) {
           icon={TriangleAlertIcon}
           title="Nie udało się pobrać koktajli"
           description="Sprawdź połączenie z internetem i spróbuj ponownie."
-          action={<Button onClick={() => refetch()}>Spróbuj ponownie</Button>}
+          action={
+            <Button size="lg" onClick={() => refetch()} className="h-11 rounded-xl px-5">
+              Spróbuj ponownie
+            </Button>
+          }
         />
       ) : cocktails.length === 0 ? (
         <StatusMessage
@@ -103,7 +107,7 @@ export function CocktailList({ filters, toolbar }: CocktailListProps) {
             size="lg"
             onClick={() => fetchNextPage()}
             disabled={isFetchingNextPage}
-            className="rounded-full px-6"
+            className="h-11 rounded-xl px-6"
           >
             {isFetchingNextPage && <Loader2Icon className="animate-spin" />}
             {isFetchingNextPage

@@ -63,16 +63,16 @@ export default async function CocktailPage({ params }: PageProps<"/cocktails/[id
       <div className="space-y-10 lg:space-y-14">
         {/* Zdjęcie i najważniejsze informacje. Na telefonie zdjęcie jest niższe (4:3),
             żeby tytuł był widoczny bez przewijania. */}
-        <header className="grid gap-6 sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:items-center sm:gap-8 lg:grid-cols-[24rem_minmax(0,1fr)] lg:gap-12">
+        <header className="grid gap-6 rounded-3xl border bg-card p-3 shadow-xs sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] sm:items-center sm:gap-8 sm:p-4 lg:grid-cols-[24rem_minmax(0,1fr)] lg:gap-12">
           <CocktailImage
             src={cocktail.imageUrl}
             alt={cocktail.name}
             sizes="(min-width: 1024px) 384px, (min-width: 640px) 40vw, 100vw"
             preload
-            className="aspect-[4/3] rounded-3xl shadow-xl shadow-foreground/10 sm:aspect-square"
+            className="aspect-[4/3] rounded-2xl sm:aspect-square"
           />
 
-          <div className="space-y-5">
+          <div className="space-y-5 px-2 pb-3 sm:px-0 sm:pr-4 sm:pb-0">
             <div className="space-y-2">
               <p className="text-xs font-semibold tracking-widest text-primary uppercase">
                 {cocktail.category}
