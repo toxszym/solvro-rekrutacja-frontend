@@ -33,8 +33,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     // suppressHydrationWarning: next-themes dodaje klasę motywu do <html> przed hydratacją.
+    // data-scroll-behavior="smooth": przy zmianie strony Next na chwilę wyłącza płynne
+    // przewijanie (scroll-smooth), więc nowa strona otwiera się od samej góry. Bez tego
+    // animacja nie zdąży dojechać do góry i Next przewija tylko do początku treści strony.
     <html
       lang="pl"
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
       className={`${geistSans.variable} ${bricolage.variable} ${geistMono.variable} h-full antialiased`}
     >
