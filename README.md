@@ -3,7 +3,7 @@
 Aplikacja webowa do przeglądania koktajli, zrobiona jako zadanie rekrutacyjne do KN Solvro.
 Dane pochodzą z [Cocktails API](https://cocktails.solvro.pl).
 
-**Wersja online:** _link wkrótce_ <!-- TODO: wstawić link po wdrożeniu -->
+**Wersja online:** https://szymon.r.tox.pl
 
 ## Funkcje
 
